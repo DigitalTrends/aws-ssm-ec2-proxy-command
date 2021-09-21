@@ -3,10 +3,11 @@
 #!/bin/bash
 
 describe_instances () {
-    REGIONS=`aws ec2 describe-regions --filters "Name=endpoint,Values=*us*" --output text | cut -f4`
+    #REGIONS=`aws ec2 describe-regions --filters "Name=endpoint,Values=*us*" --output text | cut -f4`
+    REGIONS=`aws ec2 describe-regions --region-name us-east-2 --output text | cut -f4`
     for REGION in $REGIONS
     do
-      echo "$(aws ec2 describe-instances --query 'Reservations[].Instances[].[InstanceId,Tags[?Key==`Application`] | [0].Value]' --filters 'Name=instance-state-name,Values=running' --output text --region $REGION)"
+      echo "$(aws ec2 describe-instances --query 'Reservations[].Instances[].[InstanceId,Tags[?Key==`Product`] | [0].Value]' --filters 'Name=instance-state-name,Values=running' --output text --region $REGION)"
     done
 }
 
